@@ -1,36 +1,18 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: postgres-deployment
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: postgres
-  template:
-    metadata:
-      labels:
-        app: postgres
-    spec:
-      containers:
-      - name: postgres
-        image: postgres:13
-        ports:
-        - containerPort: 5432
-        env:
-        - name: POSTGRES_USER
-          value: "postgres"
-        - name: POSTGRES_PASSWORD
-          value: "password"
-        - name: POSTGRES_DB
-          value: "app_production"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: db
-spec:
-  ports:
-    - port: 5432
-  selector:
-    app: postgres
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: <%= ENV["POSTGRES_HOST"] %>
+  username: <%= ENV["POSTGRES_USER"] %>
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
+  database: <%= ENV["POSTGRES_DB"] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+  database: app_test
+
+production:
+  <<: *default

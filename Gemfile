@@ -5,6 +5,7 @@ ruby "3.3.1"
 gem "rails", "~> 7.1.0"
 gem "pg" # PostgreSQL
 gem "puma", ">= 5.0"
+gem 'bootsnap', require: false
 
 gem "importmap-rails"
 gem "turbo-rails"

@@ -28,3 +28,5 @@ spec:
           value: "postgres"
         - name: POSTGRES_PASSWORD
           value: "password"
+        - name: RAILS_ENV
+          value: "production"
